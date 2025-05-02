@@ -6,7 +6,7 @@ This Terraform configuration deploys an AWS serverless application that acts as 
 
 The primary goal is to provide a secure, audited, and user-friendly way to provision temporary resources like bastion hosts without requiring users to have direct AWS console or Terraform CLI access for that specific task.
 
-🚀🛠️ My long term goal is to expand upon this automation layer feature into its own project where it becomes an entire ChatOps (Slack/Teams/Webex/etc.) orchestration framework for seamless (and secure) infrastructure deployment, SecOps tasks, and more.
+🚀🛠️ My long term goal is to expand upon this automation layer feature into its own project where it becomes an entire ChatOps (Slack/Teams/Webex/etc.) orchestration framework for seamless (and secure) infrastructure deployment, SecOps tasks, IR, and more.
 
 ## Architecture
 
