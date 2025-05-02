@@ -13,7 +13,7 @@ This Terraform module provisions the necessary AWS infrastructure for a **secure
 
 > **💡 Important Note:** This module focuses *solely* on creating the secure bastion infrastructure components (EC2, IAM Roles, Security Groups, Logging). To achieve the on-demand, ephemeral lifecycle, it needs to be integrated with an automation system that handles triggering, user authorization, and timed destruction. An optional Slack-based automation layer is included in the [`automation-layer/`](./automation-layer/) directory as one example implementation.
 
-🚀🛠️ My long term goal is to expand upon this automation layer feature into its own project where it becomes an entire ChatOps (Slack/Teams/Webex/etc.) orchestration framework for seamless (and secure) infrastructure deployment, SecOps tasks, and more.
+🚀🛠️ My long term goal is to expand upon this automation layer feature into its own project where it becomes an entire ChatOps (Slack/Teams/Webex/etc.) orchestration framework for seamless (and secure) infrastructure deployment, SecOps tasks, Incident Response, and more.
 
 ---
 
