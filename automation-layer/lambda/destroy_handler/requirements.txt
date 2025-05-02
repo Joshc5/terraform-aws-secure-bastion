@@ -1,0 +1,2 @@
+# boto3 is included in the Python Lambda runtime
+# No external dependencies needed for destroy handler
