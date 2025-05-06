@@ -1,4 +1,4 @@
-# Terraform AWS Secure Bastion On-Demand Module 🛡️
+# Terraform AWS Secure Bastion On-Demand Module
 
 ## Overview
 
@@ -13,14 +13,13 @@ This Terraform module provisions the necessary AWS infrastructure for a **secure
 
 > **💡 Important Note:** This module focuses *solely* on creating the secure bastion infrastructure components (EC2, IAM Roles, Security Groups, Logging). To achieve the on-demand, ephemeral lifecycle, it needs to be integrated with an automation system that handles triggering, user authorization, and timed destruction. An optional Slack-based automation layer is included in the [`automation-layer/`](./automation-layer/) directory as one example implementation.
 
-🚀🛠️ My long term goal is to expand upon this automation layer feature into its own project where it becomes an entire ChatOps (Slack/Teams/Webex/etc.) orchestration framework for seamless (and secure) infrastructure deployment, SecOps tasks, Incident Response, and more.
+🛠️ My long term goal is to expand upon this automation layer feature into its own project where it becomes an entire ChatOps (Slack/Teams/Webex/etc.) orchestration framework for seamless (and secure) infrastructure deployment, SecOps tasks, Incident Response, and more.
 
 ---
 
 ## ✨ Features & Security Benefits
 
 *   Provisions an **EC2 instance** to serve as the bastion host.
-    *   *Security:* Uses the latest Amazon Linux 2023 AMI by default (configurable via `ami_id`) to benefit from recent OS patches.
 *   Configures an **IAM Role** and **Instance Profile** adhering to the principle of least privilege.
     *   *Security:* Grants only the necessary permissions (`AmazonSSMManagedInstanceCore` plus specific permissions for logging to S3/CloudWatch).
 *   Creates a **Security Group** with **no inbound rules**.
@@ -147,7 +146,7 @@ Access to the bastion via SSM Session Manager is controlled entirely by IAM. Use
     }
     ```
 3.  **Discovery Permissions:** Grant `ssm:DescribeInstanceInformation` and `ec2:DescribeInstances` with `Resource: "*"` if users need to list instances via the AWS Console or CLI to find the bastion. These permissions do not grant connection ability.
-4.  **MFA Enforcement (Highly Recommended):** Require users to authenticate with MFA before they can start a session. Add an IAM condition to the policy attached to the user's role. Use *either* an `Allow` with a check for MFA *or* a `Deny` if MFA is absent:
+4.  **MFA Enforcement:** Require users to authenticate with MFA before they can start a session. Add an IAM condition to the policy attached to the user's role. Use *either* an `Allow` with a check for MFA *or* a `Deny` if MFA is absent:
 
     *   **Option A (Allow only if MFA present):** Add to the `Allow` statement for `ssm:StartSession`:
         ```json
@@ -181,16 +180,7 @@ This module is designed with security as a primary focus:
 5.  **No SSH Key Management:** By exclusively using SSM, the risks associated with managing, distributing, and rotating SSH keys are eliminated.
 6.  **Least Privilege (IAM Roles):** The IAM role for the EC2 instance and the example user policy emphasize granting only the minimum necessary permissions.
 7.  **Secure Logging Defaults:** When creating logging resources (S3 bucket), encryption at rest and public access blocks are enabled by default.
-8.  **Latest AMI:** Uses the latest Amazon Linux 2023 AMI by default to incorporate recent security patches.
-9.  **Private Subnet Deployment:** Encourages deployment in private subnets using VPC endpoints for maximum network isolation.
-
-**Responsibilities Outside This Module:**
-
-*   **Secure Automation Layer:** The system triggering this module must securely authenticate and authorize users.
-*   **IAM Policy Management:** Administrators must correctly create and attach IAM policies (using the provided example as a guide) to user roles/groups, including MFA enforcement and resource scoping.
-*   **Timed Destruction:** Implementing the reliable, automated destruction of the bastion host after its intended lifetime is crucial for the ephemeral security model.
-*   **SSM Agent Updates:** Ensure mechanisms are in place to keep the SSM agent on the bastion host updated (though the user data script attempts installation).
-*   **SSM Session Manager Configuration:** Configure account-level SSM Session Manager preferences (e.g., KMS encryption for logs, idle timeout, command logging) as needed.
+8.  **Private Subnet Deployment:** Deployment in private subnets using VPC endpoints for maximum network isolation.
 
 ---
 
